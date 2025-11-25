@@ -250,6 +250,16 @@ func (service *SmtpService) GetUnsubscribedEmails(ctx context.Context, params Un
 	return respData, err
 }
 
+func (service *SmtpService) GetUnsubscribedEmail(ctx context.Context, email string) (bool, error) {
+	path := fmt.Sprintf("/smtp/unsubscribe/search?email=%s", email)
+
+	var respData struct {
+		Result bool `json:"result"`
+	}
+	_, err := service.client.newRequest(ctx, http.MethodGet, path, nil, &respData, true)
+	return respData.Result, err
+}
+
 func (service *SmtpService) GetSendersIPs(ctx context.Context) ([]string, error) {
 	path := "/smtp/ips"
 
