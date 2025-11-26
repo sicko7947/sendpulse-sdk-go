@@ -5,6 +5,7 @@ import (
 	b64 "encoding/base64"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 )
@@ -251,8 +252,7 @@ func (service *SmtpService) GetUnsubscribedEmails(ctx context.Context, params Un
 }
 
 func (service *SmtpService) GetUnsubscribedEmail(ctx context.Context, email string) (bool, error) {
-	path := fmt.Sprintf("/smtp/unsubscribe/search?email=%s", email)
-
+	path := fmt.Sprintf("/smtp/unsubscribe/search?email=%s", url.QueryEscape(email))
 	var respData struct {
 		Result bool `json:"result"`
 	}
